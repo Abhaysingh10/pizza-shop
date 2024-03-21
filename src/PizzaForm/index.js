@@ -32,30 +32,18 @@ const PizzaForm = () => {
         { value: "thick", label: "Thick" },
     ];
 
+    const generateOrderId = () => {
+        return (order.length + 1).toString().padStart(3, '0');
+    };
 
     const onSave = (value) => {
-        // console.log("values", value);
-        // const data = {
-        //     type: 
-        // }
-
-        order?.length < 10 ?
-            dispatch(setPizza(value)) : toast("Not taking any order for now")
+        order?.length < 10 ? dispatch(setPizza(value)) : toast("Not taking any order for now")
         reset({
             type: null,
             size: null,
             base: null
         });
     };
-
-    useEffect(() => {
-
-
-        console.table(order)
-        return () => {
-
-        }
-    }, [order])
 
 
 
@@ -84,7 +72,7 @@ const PizzaForm = () => {
                                 )}
                             />
                             {errors.type && (
-                                <span style={{ color: "red" }}>Type is required !!</span>
+                                <span style={{ color: "red", fontSize:"small" }}>Type is required !</span>
                             )}
                         </Form.Group>
 
@@ -109,7 +97,7 @@ const PizzaForm = () => {
                                 )}
                             />
                             {errors.size && (
-                                <span style={{ color: "red" }}>Size is required !!</span>
+                                <span style={{ color: "red", fontSize:"small" }}>Size is required !</span>
                             )}
                         </Form.Group>
 
@@ -134,7 +122,7 @@ const PizzaForm = () => {
                                 )}
                             />
                             {errors.base && (
-                                <span style={{ color: "red" }}>Base is required !!</span>
+                                <span style={{ color: "red", fontSize:"small" }}>Base is required !</span>
                             )}
                         </Form.Group>
 

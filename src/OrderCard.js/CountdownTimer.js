@@ -1,27 +1,43 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setTransitionClass } from '../PizzaForm/pizzaFormReducer';
 
-function CountdownTimer() {
-  const initialTime = 3 * 60; // 3 minutes in seconds
-  const [timeLeft, setTimeLeft] = useState(initialTime);
-
+function  CountdownTimer() {
+  const [seconds, setSeconds] = useState(0);
+  const dispatch = useDispatch()
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prevTime) => prevTime - 1);
+    const interval = setInterval(() => {
+
+      setSeconds(prevSeconds => prevSeconds + 1);
     }, 1000);
 
-    // Cleanup function to clear the interval when the component unmounts
-    return () => clearInterval(timer);
-  }, []); // Run only once on component mount
+    return () => clearInterval(interval);
+  }, []);
 
-  // Convert remaining time to minutes and seconds
-  const minutes = Math.floor(timeLeft / 60);
-  const seconds = timeLeft % 60;
+  useEffect(() => {
+
+    if (seconds == 10 ) {
+      dispatch(setTransitionClass('transitionState'))
+    }
+  
+    return () => {
+      
+    }
+  }, [seconds])
+  
+
+  const formatTime = (timeInSeconds) => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = timeInSeconds % 60;
+    return `${minutes} min ${seconds} sec`;
+  };
+
+
 
   return (
     <div>
-      <h5>Countdown Timer</h5>
       <p>
-        Time Left: {minutes < 10 ? `0${minutes}` : minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+        {formatTime(seconds)}
       </p>
     </div>
   );

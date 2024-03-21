@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import CountdownTimer from "./CountdownTimer";
-import "./OrderCard.scss";
+import { useDispatch } from "react-redux";
+import { removeOrderReady, setOrderPick } from "../PizzaForm/pizzaFormReducer";
 import { Button } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { removePizza, setOrderInMaking, setTransitionClass } from "../PizzaForm/pizzaFormReducer";
 
-const OrderCard = ({ ele }) => {
+function OrderPickCard({ ele }) {
   const [seconds, setSeconds] = useState(0);
   // const {transitionClass}  = useSelector(state => state.orderData)
   const [setstateClass, setSetstateClass] = useState("");
@@ -25,10 +23,9 @@ const OrderCard = ({ ele }) => {
 
     return () => {};
   }, [seconds]);
-
-  const orderInMaking = (ele) => {
-    dispatch(removePizza(ele?.orderId))
-    dispatch(setOrderInMaking(ele))
+  const orderReady = (ele) => {
+    //   dispatch(removeOrderReady(ele?.orderId))
+    //   dispatch(setOrderPick(ele))
   };
 
   const formatTime = (timeInSeconds) => {
@@ -40,21 +37,22 @@ const OrderCard = ({ ele }) => {
   return (
     <div className={`order-parent ${setstateClass}  p-2 my-1 `}>
       <h5>Order {ele?.orderId}</h5>
-      {/* <CountdownTimer /> */}
       {formatTime(seconds)}
       <div>
         {ele.type.label} - {ele?.size.label} - {ele?.base.label}
       </div>
-      <Button
-        onClick={()=>{
-            orderInMaking(ele)
-        }}
-        style={{ backgroundColor: "white", color: "black" }}
-      >
-        Next
-      </Button>
+      <div>
+        <Button
+          onClick={() => {
+            orderReady(ele);
+          }}
+          style={{ backgroundColor: "white", color: "black" }}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
-};
+}
 
-export default OrderCard;
+export default OrderPickCard;

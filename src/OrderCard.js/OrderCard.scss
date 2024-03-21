@@ -1,9 +1,23 @@
 .order-parent{
-    height: 180px;
+    height: 130px;
     width: 227px;
-
-    background-color: rgba(76, 61, 161, 0.781);
+    background-color: rgba(247, 196, 87, 0.63);
+    // background-image: url('./../Assets/Images/bg-1.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
     border: 1px solid rgba(156, 156, 156, 0.432) ;
     border-radius: 10px;
-    color: #fff;    
+    color: #000000;    
+    transition-property: background-color;
+    transition-timing-function: ease-in-out;
+    transition-duration: 1s;
 }
+
+.transitionState{
+    background-color: rgb(180, 46, 46);
+}
+
+.delay-3 {
+    transition-delay: 4s;
+  }
+
