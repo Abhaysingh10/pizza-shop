@@ -18,7 +18,8 @@ export const pizzaFormSlice = createSlice({
     setPizza: (state, action) => {
       const orderId = state.orderIdCounter.toString().padStart(3, "0"); 
       const stage = 'Order Placed'
-      const cancel = '<button>Cancel</button>'
+      const cancel = 'Cancel'
+      
       state.order.push({ ...action.payload, orderId }); 
       state.totalOrders.push({...action.payload, orderId, stage, cancel });
       state.orderIdCounter++;
@@ -29,13 +30,24 @@ export const pizzaFormSlice = createSlice({
     },
     setOrderInMaking: (state, action) => {
       state.orderInMaking.push(action.payload);
+      const index = state.totalOrders.findIndex(pizza => pizza.orderId === action.payload.orderId);
+      if (index !== -1) {
+        state.totalOrders[index].stage = "Order In Making";
+      }
     },
     setOrderReady: (state, action) => {
       state.orderReady.push(action.payload);
+      const index = state.totalOrders.findIndex(pizza => pizza.orderId === action.payload.orderId);
+      if (index !== -1) {
+        state.totalOrders[index].stage = "Order Ready";
+      }
     },
     setOrderPick: (state, action) => {
-      console.log("action.payload", action.payload)
       state.orderPick.push(action.payload);
+      const index = state.totalOrders.findIndex(pizza => pizza.orderId === action.payload.orderId);
+      if (index !== -1) {
+        state.totalOrders[index].stage = "Order Picked";
+      }
     },
     removePizza: (state, action) => {
       // Filter out the pizza object with orderId matching action.payload
@@ -53,6 +65,9 @@ export const pizzaFormSlice = createSlice({
         (pizza) => pizza.orderId !== action.payload
       );
     },
+    removePizzaFromTotalOrder:(state, action)=>{
+      state.totalOrders = state.totalOrders.filter(order => order.orderId !== action.payload);
+    }
   },
 });
 
@@ -64,7 +79,9 @@ export const {
   setOrderPick,
   removePizza,
   removeMakingPizza,
-  removeOrderReady
+  removeOrderReady,
+  setTime,
+  removePizzaFromTotalOrder
 } = pizzaFormSlice.actions;
 
 export default pizzaFormSlice.reducer;

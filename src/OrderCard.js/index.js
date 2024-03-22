@@ -3,7 +3,7 @@ import CountdownTimer from "./CountdownTimer";
 import "./OrderCard.scss";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { removePizza, setOrderInMaking, setTransitionClass } from "../PizzaForm/pizzaFormReducer";
+import { removePizza, setOrderInMaking, setTime, setTransitionClass } from "../PizzaForm/pizzaFormReducer";
 
 const OrderCard = ({ ele }) => {
   const [seconds, setSeconds] = useState(0);
@@ -19,9 +19,24 @@ const OrderCard = ({ ele }) => {
   }, []);
 
   useEffect(() => {
-    if (seconds == 180) {
-      setSetstateClass("transitionState");
-    }
+const getSizeValueInSeconds = (sizeValue) => {
+  switch (sizeValue) {
+    case 'small':
+      return 180;
+    case 'medium':
+      return 240;
+    case 'large':
+      return 300;
+    default:
+      return 0;
+  }
+};
+
+const sizeValueInSeconds = getSizeValueInSeconds(ele?.size.value);
+
+if (sizeValueInSeconds !== 0 && seconds === sizeValueInSeconds) {
+  setSetstateClass("transitionState");
+}
 
     return () => {};
   }, [seconds]);
@@ -34,6 +49,7 @@ const OrderCard = ({ ele }) => {
   const formatTime = (timeInSeconds) => {
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = timeInSeconds % 60;
+    // dispatch(setTime(`${minutes} min ${seconds} sec`))
     return `${minutes} min ${seconds} sec`;
   };
 
